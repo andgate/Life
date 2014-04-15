@@ -4,6 +4,7 @@ import Control.Concurrent
 import Data.Ix
 import Data.List.Split
 import System.Random
+--import qualified Data.Array.Repa as R
 
 type Coord = (Int, Int)
 type Coords = [Coord]

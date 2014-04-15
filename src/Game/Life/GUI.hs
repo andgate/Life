@@ -29,13 +29,14 @@ drawCell b cellSize (x,y)
     | cell == True = translate cellX cellY cellPic
     | otherwise = blank
     where
-        cellPic = color white (thickCircle 0 cellSize)
+        cellPic = color white (rectangleSolid cellSize cellSize)
         cellX = ((fromIntegral x) * cellSize) - 250
         cellY = ((fromIntegral y) * cellSize) - 250
         cell = getCell b (x,y)
                  
 
 handleInput :: Event -> Board -> IO Board
+handleInput (EventKey (SpecialKey KeyF5) Up _ _) _ = randBoard 65
 handleInput _ board = return board
 
 stepGame :: Float -> Board -> IO Board
