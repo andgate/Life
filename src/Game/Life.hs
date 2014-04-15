@@ -1,11 +1,7 @@
-module Game.Life ( Board
-                  , evolve
-                  , loadBoard
-                  , simulate
-                  , guiSession
-                  , randBoard                  
+module Game.Life ( Grid
+                  , randomGrid
+                  , guiSession               
                   ) where
 
 import Game.Life.Core
-import Game.Life.Print
 import Game.Life.GUI

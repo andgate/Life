@@ -5,40 +5,42 @@ import Game.Life.Core
 import Graphics.Gloss.Interface.IO.Game
 
 -- Initialize the screen and start the loop
-guiSession :: String -> Board -> IO ()
-guiSession title board = playIO
+guiSession :: String -> Grid -> IO ()
+guiSession title grid = playIO
     (InWindow title (500, 500) (500, 500))
     black
     10
-    board
-    drawBoard
+    (grid, (gridCoords grid))
+    drawGrid
     handleInput
     stepGame
 
 
-drawBoard :: Board -> IO Picture
-drawBoard b = return cells
+drawGrid :: GridI -> IO Picture
+drawGrid (g, coords) = return cells
     where
-        cells = mconcat $ map (drawCell b cellSize) (boardCoords b)
+        cells = mconcat $ map (drawCell g cellSize) coords
         cellSize = 500 / boardSize
-        boardSize = fromIntegral $ fst $ getDim b
+        boardSize = fromIntegral $ fst $ gridDim g
         offset = (-500) / 2
 
-drawCell :: Board -> Float -> Coord -> Picture
-drawCell b cellSize (x,y)
-    | cell == True = translate cellX cellY cellPic
+drawCell :: Grid -> Float -> Coord -> Picture
+drawCell g cellSize (x,y)
+    | cell == 1 = translate cellX cellY cellPic
     | otherwise = blank
     where
         cellPic = color white (rectangleSolid cellSize cellSize)
         cellX = ((fromIntegral x) * cellSize) - 250
         cellY = ((fromIntegral y) * cellSize) - 250
-        cell = getCell b (x,y)
+        cell = getCell g (x-1,y-1)
                  
 
-handleInput :: Event -> Board -> IO Board
-handleInput (EventKey (SpecialKey KeyF5) Up _ _) _ = randBoard 65
-handleInput _ board = return board
+handleInput :: Event -> GridI -> IO GridI
+handleInput (EventKey (SpecialKey KeyF5) Up _ _) (g0, coords) = do
+    g1 <- randomGrid (gridLength g0)
+    return (g1, coords)
+handleInput _ (grid, coords) = return (grid, coords)
 
-stepGame :: Float -> Board -> IO Board
-stepGame dx board = return $ evolve board
+stepGame :: Float -> GridI -> IO GridI
+stepGame dx (grid, coords) = return (evolveGrid grid, coords)
     

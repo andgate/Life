@@ -18,7 +18,8 @@ executable life
   build-depends:
     base,
     random,
-    split,
+    mtl,
     repa ==3.2.3.3,
+    repa-algorithms,
     gloss ==1.8.1.2
   GHC-Options: -O2 -threaded -rtsopts
