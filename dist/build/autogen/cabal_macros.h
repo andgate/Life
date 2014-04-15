@@ -21,6 +21,13 @@
   (major1) == 1 && (major2) <  0 || \
   (major1) == 1 && (major2) == 0 && (minor) <= 1)
 
+/* package repa-3.2.3.3 */
+#define VERSION_repa "3.2.3.3"
+#define MIN_VERSION_repa(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  2 || \
+  (major1) == 3 && (major2) == 2 && (minor) <= 3)
+
 /* package split-0.2.2 */
 #define VERSION_split "0.2.2"
 #define MIN_VERSION_split(major1,major2,minor) (\

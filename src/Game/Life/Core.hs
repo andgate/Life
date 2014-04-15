@@ -4,12 +4,15 @@ import Control.Concurrent
 import Data.Ix
 import Data.List.Split
 import System.Random
---import qualified Data.Array.Repa as R
+import qualified Data.Array.Repa as R
+import Data.Array.Repa ((:.) (..))
 
 type Coord = (Int, Int)
 type Coords = [Coord]
 type Cell = Bool
+--type CellRef = IORef Cell
 type Board = [[Cell]]
+type Grid = R.Array R.U R.DIM2 Bool
 
 
 liveCell, deadCell :: Cell
@@ -27,6 +30,14 @@ randBoard x = do
             g <- newStdGen
             let randList = take (x^2) (randoms g :: [Bool])
                 in return $ chunksOf x randList
+
+-- random grid fun fun fun looking forward to the weekend
+randGrid :: Int -> IO Grid
+randGrid x = do
+            g <- newStdGen
+            let randList = take (x^2) (randoms g :: [Bool])
+                in return $ R.fromListUnboxed (R.Z :. x :. x) randList
+
 
 showCell :: Cell -> Char
 showCell True = '#'
@@ -63,6 +74,11 @@ getDim b = (width, height)
     where    
         width = length (b!!0)
         height = length b
+
+gridDim :: Grid -> (Int, Int)
+gridDim grid = (width, height)
+    where    
+        (R.Z :. width :. height) = R.extent grid
 
 boundsCheck :: Board -> (Int, Int) -> Bool
 boundsCheck b (x,y) = (inRange (1, width) x) && (inRange (1, height) y)

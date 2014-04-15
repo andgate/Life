@@ -19,5 +19,6 @@ executable life
     base,
     random,
     split,
+    repa ==3.2.3.3,
     gloss ==1.8.1.2
   GHC-Options: -O2 -threaded -rtsopts
