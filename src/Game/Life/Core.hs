@@ -19,10 +19,10 @@ type Grid = Array U DIM2 Int
 type GridI = (Grid, Coords)
 
 printGrid :: Grid -> IO ()
-printGrid g = putStrLn $ showGrid g
+printGrid !g = putStrLn $ showGrid g
 
 showGrid :: Grid -> String
-showGrid g = show g
+showGrid !g = show g
     where
         (width, height) = gridDim g
 
@@ -47,9 +47,9 @@ gridCoords !g = [(x, y) | y <- [1..height], x <- [1..width]]
 getCell :: Grid -> Coord -> Int
 getCell !g !(x,y) = g ! (Z :. x :. y)
 
--- random board funtimes, funtimes...
+
 randomGrid :: Int -> IO Grid
-randomGrid x = do
+randomGrid !x = do
             g <- newStdGen
             let randList = take (x^2) (randomRs (0,1) g :: [Int])
                 in return $ fromListUnboxed (Z :. x :. x) randList
@@ -67,8 +67,8 @@ evolveGrid !grid = runIdentity . computeP $ R.zipWith evolveCell grid neighbors
 
 {-# INLINE evolveCell #-}
 evolveCell :: Int -> Int -> Int
-evolveCell 1 2 = 1
-evolveCell 1 3 = 1
-evolveCell 1 _ = 0
-evolveCell 0 3 = 1
-evolveCell 0 _ = 0
+evolveCell !1 !2 = 1
+evolveCell !1 !3 = 1
+evolveCell !1 !_ = 0
+evolveCell !0 !3 = 1
+evolveCell !0 !_ = 0

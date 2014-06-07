@@ -19,7 +19,7 @@ executable life
     base,
     random,
     mtl,
-    repa ==3.2.3.3,
+    repa ==3.2.5.1,
     repa-algorithms,
-    gloss ==1.8.1.2
-  GHC-Options: -O2 -threaded -rtsopts
+    gloss ==1.8.2.1
+  GHC-Options: -Odph -rtsopts -threaded -fno-liberate-case -funfolding-use-threshold1000 -funfolding-keeness-factor1000 -fllvm -optlo-O3

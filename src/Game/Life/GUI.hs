@@ -1,3 +1,5 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Game.Life.GUI where
 
 import Data.Monoid ((<>), mconcat, mempty)
@@ -9,7 +11,7 @@ guiSession :: String -> Grid -> IO ()
 guiSession title grid = playIO
     (InWindow title (500, 500) (500, 500))
     black
-    10
+    20
     (grid, (gridCoords grid))
     drawGrid
     handleInput
@@ -17,7 +19,7 @@ guiSession title grid = playIO
 
 
 drawGrid :: GridI -> IO Picture
-drawGrid (g, coords) = return cells
+drawGrid !(g, coords) = return cells
     where
         cells = mconcat $ map (drawCell g cellSize) coords
         cellSize = 500 / boardSize
@@ -25,7 +27,7 @@ drawGrid (g, coords) = return cells
         offset = (-500) / 2
 
 drawCell :: Grid -> Float -> Coord -> Picture
-drawCell g cellSize (x,y)
+drawCell !g !cellSize (!x,!y)
     | cell == 1 = translate cellX cellY cellPic
     | otherwise = blank
     where
@@ -36,11 +38,11 @@ drawCell g cellSize (x,y)
                  
 
 handleInput :: Event -> GridI -> IO GridI
-handleInput (EventKey (SpecialKey KeyF5) Up _ _) (g0, coords) = do
+handleInput !(EventKey (SpecialKey KeyF5) Up _ _) !(g0, coords) = do
     g1 <- randomGrid (gridLength g0)
     return (g1, coords)
-handleInput _ (grid, coords) = return (grid, coords)
+handleInput !_ (!grid, !coords) = return (grid, coords)
 
 stepGame :: Float -> GridI -> IO GridI
-stepGame dx (grid, coords) = return (evolveGrid grid, coords)
+stepGame !dx (!grid, !coords) = return (evolveGrid grid, coords)
     
