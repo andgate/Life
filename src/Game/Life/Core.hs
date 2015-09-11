@@ -65,10 +65,10 @@ evolveGrid !grid = runIdentity . computeP $ R.zipWith evolveCell grid neighbors
     where
         neighbors = mapStencil2 (BoundConst 0) sten grid
 
-{-# INLINE evolveCell #-}
 evolveCell :: Int -> Int -> Int
 evolveCell !1 !2 = 1
 evolveCell !1 !3 = 1
 evolveCell !1 !_ = 0
 evolveCell !0 !3 = 1
 evolveCell !0 !_ = 0
+{-# INLINE evolveCell #-}

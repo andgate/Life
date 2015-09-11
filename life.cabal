@@ -1,13 +1,13 @@
 name: GameOfLife
 version: 0.1.0.0
--- synopsis:            
--- description:         
+-- synopsis:
+-- description:
 license: GPL-2
 license-file: LICENSE
 author: Gabriel Anderson
 maintainer: zettablade@gmail.com
--- copyright:           
--- category:            
+-- copyright:
+-- category:
 build-type: Simple
 cabal-version: >=1.18
 
@@ -15,11 +15,18 @@ executable life
   default-language: Haskell2010
   hs-source-dirs: src
   main-is: Main.hs
-  build-depends:
-    base,
-    random,
-    mtl,
-    repa ==3.2.5.1,
-    repa-algorithms,
-    gloss ==1.8.2.1
-  GHC-Options: -Odph -rtsopts -threaded -fno-liberate-case -funfolding-use-threshold1000 -funfolding-keeness-factor1000 -fllvm -optlo-O3
+  build-depends:  base
+                  , random
+                  , mtl
+                  , repa >=3 && <4
+                  , repa-algorithms
+                  , gloss >=1 && <2
+
+  GHC-Options:    -Odph
+                  -threaded
+                  -rtsopts
+                  -with-rtsopts=-N7
+                  -fno-liberate-case
+                  -funfolding-use-threshold1000
+                  -funfolding-keeness-factor1000
+                  -O3
